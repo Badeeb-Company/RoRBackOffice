@@ -1,0 +1,1 @@
+json.promotions @promotions, :id, :title, :due_date, :main_photo

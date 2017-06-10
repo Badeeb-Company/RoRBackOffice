@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  promotion: one
+  name: MyString
+  type: 
+  phone_number: MyString
+  mobile_number: MyString
+  governorate: MyString
+  address: MyString
+  lat: 1.5
+  lng: 1.5
+
+two:
+  promotion: two
+  name: MyString
+  type: 
+  phone_number: MyString
+  mobile_number: MyString
+  governorate: MyString
+  address: MyString
+  lat: 1.5
+  lng: 1.5
