@@ -1,1 +1,6 @@
-json.promotions @promotions, :id, :title, :due_date, :main_photo
+json.promotions @promotions do |promotion|
+	json.id promotion.id
+	json.title promotion.title
+	json.due_date promotion.due_date.strftime('%Y-%m-%d %H:%m')
+	json.main_photo promotion.main_photo
+end
