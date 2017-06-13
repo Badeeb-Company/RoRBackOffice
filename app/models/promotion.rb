@@ -1,4 +1,5 @@
 class Promotion < ApplicationRecord
+	
 	has_many :vendors, dependent: :destroy
 	has_many :photos, dependent: :destroy
 

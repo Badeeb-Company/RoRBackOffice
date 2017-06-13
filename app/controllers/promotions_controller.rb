@@ -25,29 +25,38 @@ class PromotionsController < ApplicationController
   # POST /promotions.json
   def create
     @promotion = Promotion.new(promotion_params)
-
-    respond_to do |format|
-      if @promotion.save
-        format.html { redirect_to @promotion, notice: 'Promotion was successfully created.' }
-        format.json { render :show, status: :created, location: @promotion }
+    if @promotion.save
+      vendors_importer = VendorsExcelImporter.new(params[:promotion][:file], @promotion)
+      vendors_importer.import
+      if vendors_importer.errors.empty?
+        redirect_to @promotion, notice: 'Promotion was successfully created.'
       else
-        format.html { render :new }
-        format.json { render json: @promotion.errors, status: :unprocessable_entity }
+        vendors_importer.errors.each do |error|
+          @promotion.errors.add :vendors, error
+        end
+        render :new
       end
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /promotions/1
   # PATCH/PUT /promotions/1.json
   def update
-    respond_to do |format|
-      if @promotion.update(promotion_params)
-        format.html { redirect_to @promotion, notice: 'Promotion was successfully updated.' }
-        format.json { render :show, status: :ok, location: @promotion }
+    if @promotion.update(promotion_params)
+      vendors_importer = VendorsExcelImporter.new(params[:promotion][:file], @promotion)
+      vendors_importer.import
+      if vendors_importer.errors.empty?
+        redirect_to @promotion, notice: 'Promotion was successfully updated.'
       else
-        format.html { render :edit }
-        format.json { render json: @promotion.errors, status: :unprocessable_entity }
+        vendors_importer.errors.each do |error|
+          @promotion.errors.add :vendors, error
+        end
+        render :edit
       end
+    else
+      render :edit
     end
   end
 
@@ -62,6 +71,11 @@ class PromotionsController < ApplicationController
   end
 
   private
+
+    def import_vendors
+
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_promotion
       @promotion = Promotion.find(params[:id])

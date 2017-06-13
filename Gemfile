@@ -38,6 +38,9 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'will_paginate', '~> 3.1.0'
 
+# Roo provides an interface to spreadsheets of several sorts
+gem "roo", "~> 2.7.0"
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

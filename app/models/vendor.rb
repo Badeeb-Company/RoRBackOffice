@@ -5,4 +5,10 @@ class Vendor < ApplicationRecord
 	validates :lat, inclusion: {in: -90..90, message: "must be between -90 to 90"}
 	validates :lng, inclusion: {in: -180..180, message: "must be between -180 to 180"}
 
+	class << self
+		def excel_columns
+			[:name, :vendor_type, :phone_number, :mobile_number, :governorate, :address, :lat, :lng]
+		end
+	end
+
 end
