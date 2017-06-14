@@ -12,6 +12,12 @@
   <dd><%= @promotion.due_date %></dd>
 </dl>
 
+<% @promotion.photos.each do |photo| %>
+  <div class="thumb">
+    <%= image_tag photo.url.url %>
+  </div>
+<% end %>
+
 <%= link_to t('.back', :default => t("helpers.links.back")),
               promotions_path, :class => 'btn btn-default'  %>
 <%= link_to t('.edit', :default => t("helpers.links.edit")),

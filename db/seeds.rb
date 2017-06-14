@@ -5,14 +5,18 @@ for i in 1..45
 end
 
 #insert active promotions
-for i in 1..5
+for i in 1..20
 	p = Promotion.create(
 		title: "Title #{i}",
 		description: "Description #{i}",
 		due_date: Time.now + i.weeks
 		)
 	for j in 1..3
-		photo_name = (i + j) < 10 ? "0#{i+j}" : "#{i+j}"
+		photo_index = (i + j) % 45
+		if photo_index == 0
+			photo_index = 1
+		end
+		photo_name = photo_index < 10 ? "0#{photo_index}" : "#{photo_index}"
 		p.photos.create(url: "https://safe-bastion-53717.herokuapp.com/products/#{photo_name}.jpg")
 	end
 

@@ -44,6 +44,9 @@ gem "roo", "~> 2.7.0"
 # For uploading files
 gem 'carrierwave', '~> 1.0'
 
+# For forms with nested models
+gem "cocoon"
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

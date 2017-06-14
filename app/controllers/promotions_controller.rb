@@ -46,7 +46,11 @@ class PromotionsController < ApplicationController
   def update
     if @promotion.update(promotion_params)
       vendors_importer = VendorsExcelImporter.new(params[:promotion][:file], @promotion)
-      vendors_importer.import
+
+      if params[:promotion][:file_photo]
+        @promotion.photos.create(url: params[:promotion][:file_photo])
+      end
+      
       if vendors_importer.errors.empty?
         redirect_to @promotion, notice: 'Promotion was successfully updated.'
       else
@@ -83,6 +87,7 @@ class PromotionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def promotion_params
-      params.require(:promotion).permit(:title, :description, :due_date)
+      params.require(:promotion).permit(:title, :description, :due_date,
+        photos_attributes: [:id, :url, :_destroy])
     end
 end
