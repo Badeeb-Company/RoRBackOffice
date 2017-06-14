@@ -2,7 +2,7 @@ class Api::V1::PromotionsController < Api::V1::BaseController
 
 	def index
 		page_params = get_page_params
-		@promotions = Promotion.paginate(page: page_params[:page], per_page: page_params[:per_page])
+		@promotions = Promotion.paginate(page: page_params[:page], per_page: page_params[:page_size])
 			.order("due_date DESC")
 	end
 
@@ -22,6 +22,7 @@ class Api::V1::PromotionsController < Api::V1::BaseController
 			render 'api/v1/empty', status: :unprocessable_entity
 		end
 		@vendors = Promotion.find_by_id(params[:promotion_id]).vendors
+			.paginate(page: page_params[:page], per_page: page_params[:page_size])
 	end
 
 	private
