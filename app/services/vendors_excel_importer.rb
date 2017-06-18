@@ -6,9 +6,13 @@ class VendorsExcelImporter
     @file = file
     @promotion = promotion
     @errors = []
+    @vendors = []
   end
 
   def import
+    if @file.nil?
+      return
+    end
     process_file
     if @vendors.map(&:valid?).all?
       @promotion.vendors.destroy_all
@@ -25,7 +29,6 @@ class VendorsExcelImporter
   private
 
   def process_file
-    @vendors = []
     spreadsheet = open_spreadsheet
     (2..spreadsheet.last_row).each do |i|
       row_data = Hash[[Vendor.excel_columns, spreadsheet.row(i)].transpose]
@@ -35,6 +38,7 @@ class VendorsExcelImporter
   end
 
   def open_spreadsheet
+    return nil if @file.nil?
     case File.extname(@file.original_filename)
     when ".xls"
       Roo::Excel.new(@file.path)

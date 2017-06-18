@@ -4,7 +4,8 @@ class PromotionsController < ApplicationController
   # GET /promotions
   # GET /promotions.json
   def index
-    @promotions = Promotion.all
+    @promotions = Promotion.paginate(:page => params[:page], :per_page => 10)
+    .order("due_date DESC")
   end
 
   # GET /promotions/1
@@ -46,7 +47,11 @@ class PromotionsController < ApplicationController
   def update
     if @promotion.update(promotion_params)
       vendors_importer = VendorsExcelImporter.new(params[:promotion][:file], @promotion)
+      begin
+        vendors_importer.import
+      rescue Exceptions::InvalidVendorsImport
 
+      end
       if params[:promotion][:file_photo]
         @promotion.photos.create(url: params[:promotion][:file_photo])
       end
@@ -76,9 +81,9 @@ class PromotionsController < ApplicationController
 
   private
 
-    def import_vendors
+  def import_vendors
 
-    end
+  end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_promotion
@@ -90,4 +95,4 @@ class PromotionsController < ApplicationController
       params.require(:promotion).permit(:title, :description, :due_date,
         photos_attributes: [:id, :url, :_destroy])
     end
-end
+  end

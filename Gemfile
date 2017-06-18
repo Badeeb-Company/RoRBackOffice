@@ -37,6 +37,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 
 gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate-bootstrap'
 
 # Roo provides an interface to spreadsheets of several sorts
 gem "roo", "~> 2.7.0"

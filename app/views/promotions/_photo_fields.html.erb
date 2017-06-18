@@ -1,10 +1,10 @@
 <div class="nested-fields col-lg-offset-2 row">
  	<% if !f.object.new_record?  %>
- 		<div class="col-lg-10">
-	 		<%= f.object.url %>
+ 		<div class="col-lg-5">
+	 		<%= f.object.url_identifier %>
 	 	</div>
  	<% else %>
- 		<%= f.file_field :url, class: "col-lg-10" %>
+ 		<%= f.file_field :url, class: "col-lg-5" %>
  	<% end %>
  	
 	<%= link_to_remove_association "remove", f, class: "col-lg-2 bottom-10" %>

@@ -1,4 +1,6 @@
 class Promotion < ApplicationRecord
+
+	validates :title, :description, :due_date, presence: true
 	
 	has_many :vendors, dependent: :destroy
 	has_many :photos, dependent: :destroy

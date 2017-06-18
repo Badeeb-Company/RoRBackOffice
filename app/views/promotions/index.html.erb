@@ -24,14 +24,12 @@
         <td><%= promotion.title %></td>
         <td><%= promotion.description %></td>
         <td><%= promotion.due_date %></td>
-        <td><%=l promotion.created_at %></td>
+        <td><%= promotion.created_at %></td>
         <td>
           <%= link_to t('.show', :default => t("helpers.links.show")),
                       promotion_path(promotion), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_promotion_path(promotion), :class => 'btn btn-default btn-xs' %>
-          
-          <%= link_to 'Add vendor', new_promotion_vendor_path(promotion), :class => 'btn btn-default btn-xs' %>
           
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       promotion_path(promotion),
@@ -44,6 +42,10 @@
   </tbody>
 </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_promotion_path,
-            :class => 'btn btn-primary' %>
+<%= will_paginate @promotions, renderer: BootstrapPagination::Rails %>
+
+<div class="form-group">
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+              new_promotion_path,
+              :class => 'btn btn-primary' %>
+</div>
