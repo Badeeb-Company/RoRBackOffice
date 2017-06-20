@@ -12,7 +12,7 @@ class Promotion < ApplicationRecord
 	accepts_nested_attributes_for :promotion_photos, allow_destroy: true
 
 	def main_photo
-		promotion_photos.first.try(:photo_indentifier)
+		promotion_photos.first.try(:photo_identifier)
 	end
 
 	def formatted_due_date
