@@ -10,23 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170610190312) do
+ActiveRecord::Schema.define(version: 20170618204853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "photos", force: :cascade do |t|
-    t.integer  "promotion_id"
-    t.string   "url"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["promotion_id"], name: "index_photos_on_promotion_id", using: :btree
-  end
-
   create_table "products", force: :cascade do |t|
-    t.string   "url"
+    t.string   "photo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "promotion_photos", force: :cascade do |t|
+    t.integer  "promotion_id"
+    t.string   "photo"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["promotion_id"], name: "index_promotion_photos_on_promotion_id", using: :btree
   end
 
   create_table "promotions", force: :cascade do |t|
@@ -60,6 +60,6 @@ ActiveRecord::Schema.define(version: 20170610190312) do
     t.index ["promotion_id"], name: "index_vendors_on_promotion_id", using: :btree
   end
 
-  add_foreign_key "photos", "promotions"
+  add_foreign_key "promotion_photos", "promotions"
   add_foreign_key "vendors", "promotions"
 end

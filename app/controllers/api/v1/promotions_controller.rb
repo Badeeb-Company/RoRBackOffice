@@ -17,7 +17,7 @@ class Api::V1::PromotionsController < Api::V1::BaseController
 		lat = params[:lat]
 		lng = params[:lng]
 		page_params = get_page_params
-		if valid_location?(lat, lng)
+		if !valid_location?(lat, lng)
 			@message = 'Invalid location'
 			render 'api/v1/empty', status: :unprocessable_entity
 		end
