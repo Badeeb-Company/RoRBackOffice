@@ -8,6 +8,11 @@ Rails.application.routes.draw do
 		resources :vendors
 	end
 
+	resources :notifications, only: [:new, :create]
+
+	post 'notifications', to: 'notifications#create'
+	get 'notifications/new', to: 'notifications#new'
+
 	namespace :api do
 		namespace :v1 do
 
@@ -16,6 +21,8 @@ Rails.application.routes.draw do
 			end
 
 			resources :products, only: [:index]
+
+			get 'notify', to: 'products#notify'
 
 			get 'company_info', to: 'general#company_info'
 		end

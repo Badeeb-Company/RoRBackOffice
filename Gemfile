@@ -48,6 +48,9 @@ gem 'carrierwave', '~> 1.0'
 # For forms with nested models
 gem "cocoon"
 
+# For firebase push notifications
+gem 'fcm'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
