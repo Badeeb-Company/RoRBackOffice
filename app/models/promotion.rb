@@ -2,17 +2,15 @@ class Promotion < ApplicationRecord
 
 	validates :title, :description, :due_date, presence: true
 
-	validate do
-		check_number_of_photos
-	end
+	validate :check_number_of_photos
 	
 	has_many :vendors, dependent: :destroy
-	has_many :promotion_photos, dependent: :destroy
+	has_many :photos, class_name: 'PromotionPhoto', dependent: :destroy
 
-	accepts_nested_attributes_for :promotion_photos, allow_destroy: true
+	accepts_nested_attributes_for :photos, allow_destroy: true
 
 	def main_photo
-		promotion_photos.first.try(:photo_identifier)
+		photos.first.try(:photo_identifier)
 	end
 
 	def formatted_due_date
@@ -23,10 +21,16 @@ class Promotion < ApplicationRecord
 		end
 	end
 
+	def persisted_photos
+		photos.select do |photo|
+			!photo.marked_for_destruction?
+		end
+	end
+
 	private
 
 	def check_number_of_photos
-		unless promotion_photos.size > 0
+		if persisted_photos.size == 0
 			errors.add(:base, 'Add at least one photo for each promotion')
 		end
 	end

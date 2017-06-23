@@ -46,14 +46,14 @@
 
   <div class="form-group">
     <%= f.label 'photos', :class => 'control-label col-lg-2' %>
-    <%= f.fields_for :promotion_photos do |photo| %>
-      <%= render 'promotion_photo_fields', f: photo %>
+    <%= f.fields_for :photos do |photo| %>
+      <%= render 'photo_fields', f: photo %>
     <% end %>
   </div>
 
  <div class="form-group">
   <div class="links col-lg-offset-2 col-lg-10 top-10">
-    <%= link_to_add_association 'Add New Photo', f, :promotion_photos, 
+    <%= link_to_add_association 'Add New Photo', f, :photos, 
       :class => 'btn btn-default' %>
   </div>
 </div>

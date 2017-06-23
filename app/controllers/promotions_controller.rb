@@ -53,7 +53,7 @@ class PromotionsController < ApplicationController
 
       end
       if params[:promotion][:file_photo]
-        @promotion.promotion_photos.create(photo: params[:promotion][:file_photo])
+        @promotion.photos.create(photo: params[:promotion][:file_photo])
       end
       
       if vendors_importer.errors.empty?
@@ -93,6 +93,6 @@ class PromotionsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def promotion_params
       params.require(:promotion).permit(:title, :description, :due_date,
-        promotion_photos_attributes: [:id, :photo, :_destroy])
+        photos_attributes: [:id, :photo, :_destroy])
     end
   end

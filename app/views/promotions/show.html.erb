@@ -12,7 +12,7 @@
   <dd><%= @promotion.due_date %></dd>
 </dl>
 
-<% @promotion.promotion_photos.each do |promotion_photo| %>
+<% @promotion.photos.each do |promotion_photo| %>
   <div class="thumb">
     <%= image_tag promotion_photo.photo %>
   </div>
