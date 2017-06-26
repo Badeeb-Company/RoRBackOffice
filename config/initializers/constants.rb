@@ -1,0 +1,1 @@
+PN_TOPIC_KEKY = 'waritex'

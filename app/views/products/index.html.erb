@@ -33,6 +33,10 @@
   </tbody>
 </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_product_path,
-            :class => 'btn btn-primary' %>
+<%= will_paginate @promotions, renderer: BootstrapPagination::Rails %>
+
+<div class="form-group">
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+              new_product_path,
+              :class => 'btn btn-primary' %>
+</div>

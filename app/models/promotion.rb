@@ -23,15 +23,21 @@ class Promotion < ApplicationRecord
 
 	def persisted_photos
 		photos.select do |photo|
-			!photo.marked_for_destruction?
+			photo.persisted?
 		end
 	end
 
 	private
 
 	def check_number_of_photos
-		if persisted_photos.size == 0
+		if valid_photos.size == 0
 			errors.add(:base, 'Add at least one photo for each promotion')
+		end
+	end
+
+	def valid_photos
+		photos.select do |photo|
+			!photo.marked_for_destruction?
 		end
 	end
 

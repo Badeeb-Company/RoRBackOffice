@@ -4,7 +4,7 @@
 	 		<%= f.object.photo_identifier %>
 	 	</div>
  	<% else %>
- 		<%= f.file_field :photo, class: "col-lg-5" %>
+ 		<%= f.file_field :photo, class: "col-lg-5", accept: 'image/png,image/jpeg' %>
  	<% end %>
  	
 	<%= link_to_remove_association "remove", f, class: "col-lg-2 bottom-10" %>
