@@ -3,13 +3,14 @@ class Api::V1::PromotionsController < Api::V1::BaseController
 	def index
 		page_params = get_page_params
 		@promotions = Promotion.paginate(page: page_params[:page], per_page: page_params[:page_size])
-			.order("due_date DESC")
+		.order("due_date DESC")
 	end
 
 	def show
 		@promotion = Promotion.find_by_id(params[:id])
 		if !@promotion.present?
-			render 'api/v1/shared/empty', status: :unprocessable_entity
+			@message = 'Promotion not found'
+			render 'api/v1/empty', status: :unprocessable_entity
 		end
 	end
 
@@ -20,9 +21,17 @@ class Api::V1::PromotionsController < Api::V1::BaseController
 		if !valid_location?(lat, lng)
 			@message = 'Invalid location'
 			render 'api/v1/empty', status: :unprocessable_entity
+		else
+			promotion = Promotion.find_by_id(params[:promotion_id])
+			if !promotion.present?
+				@message = 'Promotion not found'
+				render 'api/v1/empty', status: :unprocessable_entity
+			else
+				@vendors = promotion.vendors
+				.paginate(page: page_params[:page], per_page: page_params[:page_size])
+			end
 		end
-		@vendors = Promotion.find_by_id(params[:promotion_id]).vendors
-			.paginate(page: page_params[:page], per_page: page_params[:page_size])
+
 	end
 
 	private

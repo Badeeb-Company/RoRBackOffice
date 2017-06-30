@@ -25,7 +25,7 @@ class VendorsController < ApplicationController
     @vendor = @promotion.vendors.build(vendor_params)
 
     if @vendor.save
-      redirect_to(promotions_url, notice: 'Vendor was successfully created.')
+      redirect_to(promotion_vendors_url(@promotion), notice: 'Vendor was successfully created.')
     else
       render action: 'new'
     end

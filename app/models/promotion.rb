@@ -10,7 +10,7 @@ class Promotion < ApplicationRecord
 	accepts_nested_attributes_for :photos, allow_destroy: true
 
 	def main_photo
-		photos.first.try(:photo_identifier)
+		photos.first.try(:photo_url)
 	end
 
 	def formatted_due_date
@@ -18,12 +18,6 @@ class Promotion < ApplicationRecord
 			due_date.strftime('%Y-%m-%d %H:%m')
 		else
 			due_date
-		end
-	end
-
-	def persisted_photos
-		photos.select do |photo|
-			photo.persisted?
 		end
 	end
 

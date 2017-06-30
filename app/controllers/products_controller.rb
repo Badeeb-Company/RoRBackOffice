@@ -25,7 +25,6 @@ class ProductsController < ApplicationController
   # POST /products.json
   def create
     @product = Product.new(product_params)
-
     respond_to do |format|
       if @product.save
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
@@ -58,6 +57,28 @@ class ProductsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def import
+  end
+
+  def do_import
+    zip_file = params[:file]
+    if zip_file.blank?
+      flash[:error] = 'Please select zip file to upload products'
+      render :import
+    else
+      Zip::File.open(zip_file.path) do |file|
+        Product.destroy_all
+        file.each do |entry|
+          entry.extract(Rails.root.join('public', entry.name))
+          temp_file = File.new(Rails.root.join('public', entry.name))
+          Product.create(photo: temp_file)
+          File.delete(Rails.root.join('public', entry.name))
+        end
+      end
+      redirect_to products_url, notice: 'Products imported successfully.'
     end
   end
 

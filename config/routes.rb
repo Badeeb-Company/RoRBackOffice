@@ -3,7 +3,15 @@ Rails.application.routes.draw do
 	root 'promotions#index'
 	
 	resources :settings
-	resources :products
+
+	resources :products do
+		collection do
+			get 'import'
+			post 'do_import'
+		end
+
+	end
+
 	resources :promotions do
 		resources :vendors
 	end

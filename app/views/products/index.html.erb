@@ -16,7 +16,7 @@
       <tr>
         <td><%= link_to product.id, product_path(product) %></td>
         <td><%= product.photo_identifier %></td>
-        <td><%=l product.created_at %></td>
+        <td><%= product.created_at %></td>
         <td>
           <%= link_to t('.show', :default => t("helpers.links.show")),
                       product_path(product), :class => 'btn btn-default btn-xs' %>
@@ -39,4 +39,9 @@
   <%= link_to t('.new', :default => t("helpers.links.new")),
               new_product_path,
               :class => 'btn btn-primary' %>
+
+  <%= link_to 'Import products',
+              import_products_path,
+              :class => 'btn btn-default' %>
+  
 </div>

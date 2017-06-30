@@ -42,6 +42,8 @@ gem 'will_paginate-bootstrap'
 # Roo provides an interface to spreadsheets of several sorts
 gem "roo", "~> 2.7.0"
 
+gem 'rubyzip', '>= 1.0.0'
+
 # For uploading files
 gem 'carrierwave', '~> 1.0'
 
