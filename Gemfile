@@ -46,6 +46,7 @@ gem 'rubyzip', '>= 1.0.0'
 
 # For uploading files
 gem 'carrierwave', '~> 1.0'
+gem 'cloudinary'
 
 # For forms with nested models
 gem "cocoon"
