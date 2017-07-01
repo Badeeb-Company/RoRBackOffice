@@ -54,6 +54,8 @@ gem "cocoon"
 # For firebase push notifications
 gem 'fcm'
 
+gem 'httparty'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

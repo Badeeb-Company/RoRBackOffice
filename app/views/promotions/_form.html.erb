@@ -22,6 +22,7 @@
   </div>
   <%=f.error_span(:title) %>
 </div>
+
 <div class="form-group">
   <%= f.label :description, :class => 'control-label col-lg-2' %>
   <div class="col-lg-10">
@@ -29,12 +30,20 @@
   </div>
   <%=f.error_span(:description) %>
 </div>
+
 <div class="form-group">
   <%= f.label :due_date, :class => 'control-label col-lg-2' %>
   <div class="col-lg-10">
     <%= f.date_select :due_date, :class => 'form-control' %>
   </div>
   <%=f.error_span(:due_date) %>
+</div>
+
+<div class="form-group">
+  <%= f.label :dynamic_link, :class => 'control-label col-lg-2' %>
+  <div class="col-lg-10">
+    <%= f.text_field :dynamic_link, readonly: true, :class => 'form-control' %>
+  </div>
 </div>
 
 <div class="form-group">
