@@ -6,3 +6,5 @@ DYNAMIC_LINK_WEBSITE = 'http://waritex.com'
 
 ANDROID_PACKAGE_NAME = 'com.badeeb.waritex'
 IOS_BUNDLE_ID = 'com.example.ios'
+
+DEFAULT_MAX_VENDORS_NO = 5

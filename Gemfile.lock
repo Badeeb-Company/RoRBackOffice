@@ -68,6 +68,7 @@ GEM
       httparty
       json
     ffi (1.9.18)
+    geocoder (1.4.3)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     http-cookie (1.0.3)
@@ -209,6 +210,7 @@ DEPENDENCIES
   cocoon
   coffee-rails (~> 4.2)
   fcm
+  geocoder
   httparty
   jbuilder (~> 2.5)
   jquery-rails

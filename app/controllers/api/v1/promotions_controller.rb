@@ -27,8 +27,9 @@ class Api::V1::PromotionsController < Api::V1::BaseController
 				@message = 'Promotion not found'
 				render 'api/v1/empty', status: :unprocessable_entity
 			else
-				@vendors = promotion.vendors
-				.paginate(page: page_params[:page], per_page: page_params[:page_size])
+				page = page_params[:page]
+				per_page = page_params[:page_size]
+				@vendors = Vendor.find_near_vendors(promotion.vendors, lat, lng, page, per_page)
 			end
 		end
 

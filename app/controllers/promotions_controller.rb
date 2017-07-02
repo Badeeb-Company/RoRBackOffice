@@ -81,10 +81,6 @@ class PromotionsController < ApplicationController
 
   private
 
-  def import_vendors
-
-  end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_promotion
       @promotion = Promotion.find(params[:id])

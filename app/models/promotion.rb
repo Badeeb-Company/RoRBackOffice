@@ -43,7 +43,6 @@ class Promotion < ApplicationRecord
 			long_link << "?link=#{DYNAMIC_LINK_WEBSITE}"
 			long_link << "?promotion_id=#{id}"
 			long_link << "&apn=#{ANDROID_PACKAGE_NAME}"
-			puts long_link
 			body = {
 				longDynamicLink: long_link,
 				suffix: {option: 'SHORT'}
