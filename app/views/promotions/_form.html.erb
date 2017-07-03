@@ -58,7 +58,7 @@
   <%= f.label 'photos', :class => 'control-label col-lg-2' %>
 
   <%= f.fields_for :photos do |photo| %>
-  <%= render 'photo_fields', f: photo %>
+    <%= render 'photo_fields', f: photo %>
   <% end %>
 </div>
 
@@ -67,7 +67,10 @@
   <div class="links col-lg-offset-2 col-lg-10 top-30">
     <%= link_to_add_association 'Add New Photo', f, :photos, 
     :class => 'btn btn-default' %>
-    <%= link_to 'Edit Vendors', promotion_vendors_path(f.object), :class => 'btn btn-default' %>
+    <% if !f.object.new_record? %>
+      <%= link_to 'Edit Vendors', promotion_vendors_path(f.object), :class => 'btn btn-default' %>
+    <% end %>
+
   </div>
 </div>
 

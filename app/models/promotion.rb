@@ -5,22 +5,16 @@ class Promotion < ApplicationRecord
 	validate :check_number_of_photos
 	
 	has_many :vendors, dependent: :destroy
-	has_many :photos, class_name: 'PromotionPhoto', dependent: :destroy
+	has_many :photos, class_name: 'PromotionPhoto', dependent: :destroy, inverse_of: :promotion
 
 	before_save :generate_dynamic_link
+
+	scope :expired, -> { where("due_date < ?", Date.today) }
 
 	accepts_nested_attributes_for :photos, allow_destroy: true
 
 	def main_photo
 		photos.first.try(:photo_url)
-	end
-
-	def formatted_due_date
-		if due_date
-			due_date.strftime('%Y-%m-%d %H:%m')
-		else
-			due_date
-		end
 	end
 
 	private

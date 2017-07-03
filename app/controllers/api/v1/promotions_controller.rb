@@ -2,8 +2,15 @@ class Api::V1::PromotionsController < Api::V1::BaseController
 
 	def index
 		page_params = get_page_params
-		@promotions = Promotion.paginate(page: page_params[:page], per_page: page_params[:page_size])
-		.order("due_date DESC")
+		expired = false
+		if params[:expired] == 'true'
+			expired = true
+		end
+		if expired
+			@promotions = Promotion.expired.paginate(page: page_params[:page], per_page: page_params[:page_size]).order("due_date DESC")
+		else
+			@promotions = Promotion.paginate(page: page_params[:page], per_page: page_params[:page_size]).order("due_date DESC")
+		end
 	end
 
 	def show

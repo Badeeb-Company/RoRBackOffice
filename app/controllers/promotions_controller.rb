@@ -52,10 +52,6 @@ class PromotionsController < ApplicationController
       rescue Exceptions::InvalidVendorsImport
 
       end
-      if params[:promotion][:file_photo]
-        @promotion.photos.create(photo: params[:promotion][:file_photo])
-      end
-      
       if vendors_importer.errors.empty?
         redirect_to @promotion, notice: 'Promotion was successfully updated.'
       else

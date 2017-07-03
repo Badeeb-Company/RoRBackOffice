@@ -20,7 +20,7 @@
         <td><%= setting.key %></td>
         <td><%= setting.description %></td>
         <td><%= setting.value %></td>
-        <td><%=l setting.created_at %></td>
+        <td><%= setting.created_at %></td>
         <td>
           <%= link_to t('.show', :default => t("helpers.links.show")),
                       setting_path(setting), :class => 'btn btn-default btn-xs' %>
