@@ -6,7 +6,7 @@ class NotificationsController  < ApplicationController
 
 	def create
 		@notification = Notification.new(notification_params)
-		if @notification.valid?
+		if @notification.save
 			PushNotificationsManager.send(@notification)
 			redirect_to new_notification_path, notice: 'Notification sent successfully.'
 		else

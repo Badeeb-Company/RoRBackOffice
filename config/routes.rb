@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
 			resources :products, only: [:index]
 
+			resources :notifications, only: [:index]
+
 			get 'notify', to: 'products#notify'
 
 			get 'company_info', to: 'general#company_info'

@@ -6,8 +6,4 @@ class Api::V1::ProductsController < Api::V1::BaseController
 			.order("id ASC")
 	end
 
-	def notify
-		PushNotificationsManager.send
-	end
-
 end
