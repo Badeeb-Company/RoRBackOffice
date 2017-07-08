@@ -10,14 +10,13 @@ Rails.application.routes.draw do
 			get 'import'
 			post 'do_import'
 		end
-
 	end
 
 	resources :promotions do
 		resources :vendors
 	end
 
-	resources :notifications, only: [:new, :create]
+	resources :notifications, except: [:edit, :update]
 
 	post 'notifications', to: 'notifications#create'
 	get 'notifications/new', to: 'notifications#new'
