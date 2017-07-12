@@ -9,7 +9,7 @@ class Api::V1::PromotionsController < Api::V1::BaseController
 		if expired
 			@promotions = Promotion.expired.paginate(page: page_params[:page], per_page: page_params[:page_size]).order("due_date DESC")
 		else
-			@promotions = Promotion.paginate(page: page_params[:page], per_page: page_params[:page_size]).order("due_date DESC")
+			@promotions = Promotion.valid.paginate(page: page_params[:page], per_page: page_params[:page_size]).order("due_date DESC")
 		end
 	end
 

@@ -10,6 +10,7 @@ class Promotion < ApplicationRecord
 	before_save :generate_dynamic_link
 
 	scope :expired, -> { where("due_date < ?", Date.today) }
+	scope :valid, -> { where("due_date >= ?", Date.today) }
 
 	accepts_nested_attributes_for :photos, allow_destroy: true
 
