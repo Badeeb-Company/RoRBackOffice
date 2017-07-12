@@ -39,8 +39,7 @@ class Promotion < ApplicationRecord
 			long_link << "?promotion_id=#{id}"
 			long_link << "&apn=#{ANDROID_PACKAGE_NAME}"
 			body = {
-				longDynamicLink: long_link,
-				suffix: {option: 'SHORT'}
+				longDynamicLink: long_link
 			}.to_json
 			url = "#{DYNAMIC_LINK_SHORTEN_URL}?key=#{Rails.application.secrets.firebase_web_api_key}"
 			response = HTTParty.post(url, body: body, :headers => {'Content-Type' => 'application/json'})
