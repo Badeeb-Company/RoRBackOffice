@@ -34,7 +34,7 @@ class Promotion < ApplicationRecord
 
 	def generate_dynamic_link
 		if dynamic_link.blank?
-			long_link = DYNAMIC_LINK_DOMAIN
+			long_link = "#{DYNAMIC_LINK_DOMAIN}"
 			long_link << "?link=#{DYNAMIC_LINK_WEBSITE}"
 			long_link << "?promotion_id=#{id}"
 			long_link << "&apn=#{ANDROID_PACKAGE_NAME}"
