@@ -30,6 +30,9 @@ Rails.application.routes.draw do
 
 			resources :products, only: [:index]
 
+			post 'products/:id/reviews', to: 'products#reviews_create'
+			get 'products/:id/reviews', to: 'products#reviews_index'
+
 			resources :notifications, only: [:index]
 
 			get 'notify', to: 'products#notify'
