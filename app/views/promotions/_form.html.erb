@@ -1,4 +1,6 @@
-<%= form_for @promotion, :html => { :class => "form-horizontal promotion" } do |f| %>
+<%= form_for @promotion,
+  :html => { :class => "form-horizontal promotion", id: 'promotion_form' },
+  validate: true do |f| %>
 
 <% if @promotion.errors.any? %>
 <div id="error_expl" class="panel panel-danger">
