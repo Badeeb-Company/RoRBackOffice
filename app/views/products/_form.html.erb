@@ -1,4 +1,5 @@
-<%= form_for @product, :html => { :class => "form-horizontal product" } do |f| %>
+<%= form_for @product, :html => { :class => "form-horizontal product", id: 'product_form' }, 
+  validate: true do |f| %>
 
 <% if @product.errors.any? %>
 <div id="error_expl" class="panel panel-danger">
@@ -34,17 +35,77 @@
 <div class="form-group">
   <%= f.label :photo, :class => 'control-label col-lg-2' %>
   <div class="col-lg-10">
-    <%= f.file_field :photo %>
+    <%= f.file_field :photo_file, id: 'file_field' %>
+    <%= f.hidden_field :photo, id: 'hidden_photo_field' %>
   </div>
   <%=f.error_span(:photo) %>
 </div>
 
 <div class="form-group">
   <div class="col-lg-offset-2 col-lg-10">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= f.submit nil, :class => 'btn btn-primary', id: 'submit_button' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
     products_path, :class => 'btn btn-default' %>
   </div>
 </div>
 
 <% end %>
+
+<script>
+  var form = $('#product_form');
+  var config = {
+    apiKey: "AIzaSyBiH5nQyb9vwCR9OL0f8ugGajNZHJh90nk",
+    authDomain: "waritex-promotions-firebase.firebaseapp.com",
+    databaseURL: "https://waritex-promotions-firebase.firebaseio.com",
+    projectId: "waritex-promotions-firebase",
+    storageBucket: "waritex-promotions-firebase.appspot.com",
+    messagingSenderId: "786576419400"
+  };
+  firebase.initializeApp(config);
+
+  $('#submit_button').click(function(e){
+   e.preventDefault();
+
+   $('*[data-validate="true"]').blur();
+
+   var hiddenField = $('#hidden_photo_field');
+
+
+   if(form.isValid(ClientSideValidations.validators)){
+    var fileField = $('#file_field');
+    var files = fileField.prop('files');
+
+    if(files.length > 0){
+      var file = fileField.prop('files')[0];
+
+      var storageRef = firebase.storage().ref();
+      var fileRef = storageRef.child('images/' + file.name);
+      var uploadTask = fileRef.put(file)
+      showPleaseWait();
+
+      uploadTask.on('state_changed', 
+        null,
+        function error(error) {
+          hidePleaseWait();
+          alert('Error occured while uploading files')
+        },
+        function complete() {
+          hidePleaseWait();
+          var downloadURL = uploadTask.snapshot.downloadURL;
+          hiddenField.val(downloadURL);
+          form.submit();
+        });
+    } else {
+      if(hiddenField.val()) {
+        form.submit();
+      } else {
+        alert("Please select photo file");
+      }
+
+    }
+
+  }
+
+  });
+
+</script>

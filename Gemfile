@@ -41,6 +41,8 @@ gem 'will_paginate-bootstrap'
 
 gem 'geocoder'
 
+gem 'client_side_validations'
+
 # Roo provides an interface to spreadsheets of several sorts
 gem "roo", "~> 2.7.0"
 
