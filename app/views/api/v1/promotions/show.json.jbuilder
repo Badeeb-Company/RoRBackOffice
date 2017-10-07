@@ -3,6 +3,6 @@ json.promotion_info do
 	json.due_date @promotion.due_date
 	json.photos @promotion.photos do |photo|
 		json.id photo.id
-		json.url photo.photo.thumbnail.url
+		json.url photo.photo
 	end
 end

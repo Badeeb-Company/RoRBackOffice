@@ -15,7 +15,7 @@ class Promotion < ApplicationRecord
 	accepts_nested_attributes_for :photos, allow_destroy: true
 
 	def main_photo
-		photos.first.try(:photo).try(:thumbnail).try(:url)
+		photos.first.try(:photo)
 	end
 
 	private
