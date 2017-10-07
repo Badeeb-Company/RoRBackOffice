@@ -41,6 +41,6 @@ Setting.create(
 	)
 
 User.create(
-	username: 'admin'
+	username: 'admin',
 	password: '123456'
 	)
