@@ -39,3 +39,8 @@ Setting.create(
 	value: '01285111211',
 	description: ''
 	)
+
+User.create(
+	username: 'admin'
+	password: '123456'
+	)
