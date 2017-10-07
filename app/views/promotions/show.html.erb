@@ -23,9 +23,9 @@
         <% @promotion.photos.each_with_index do |photo, i| %>
 
         <div class="item <%= 'active' if i == 0 %>">
-          <img src="<%= photo.photo_url %>" alt="<%= photo.photo_identifier %>" class="thumb">
+          <img src="<%= photo.photo %>" alt="<%= photo.photo %>" class="thumb">
           <div class="carousel-caption">
-            <h4><%= photo.photo_identifier %></h4>
+            <h4><%= photo.photo %></h4>
           </div>
         </div>
 

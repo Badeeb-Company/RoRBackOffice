@@ -35,7 +35,7 @@
 <div class="form-group">
   <%= f.label :photo, :class => 'control-label col-lg-2' %>
   <div class="col-lg-10">
-    <%= f.file_field :photo_file, id: 'file_field' %>
+    <%= f.file_field :photo_file, id: 'file_field', accept: 'image/png,image/jpeg' %>
     <%= f.hidden_field :photo, id: 'hidden_photo_field' %>
   </div>
   <%=f.error_span(:photo) %>
@@ -52,59 +52,64 @@
 <% end %>
 
 <script>
-  var form = $('#product_form');
+
   var config = {
-    apiKey: "AIzaSyBiH5nQyb9vwCR9OL0f8ugGajNZHJh90nk",
-    authDomain: "waritex-promotions-firebase.firebaseapp.com",
-    databaseURL: "https://waritex-promotions-firebase.firebaseio.com",
-    projectId: "waritex-promotions-firebase",
-    storageBucket: "waritex-promotions-firebase.appspot.com",
-    messagingSenderId: "786576419400"
+      apiKey: "AIzaSyBiH5nQyb9vwCR9OL0f8ugGajNZHJh90nk",
+      authDomain: "waritex-promotions-firebase.firebaseapp.com",
+      databaseURL: "https://waritex-promotions-firebase.firebaseio.com",
+      projectId: "waritex-promotions-firebase",
+      storageBucket: "waritex-promotions-firebase.appspot.com",
+      messagingSenderId: "786576419400"
   };
-  firebase.initializeApp(config);
+  
+  if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+  }
 
   $('#submit_button').click(function(e){
-   e.preventDefault();
+    e.preventDefault();
 
-   $('*[data-validate="true"]').blur();
-
-   var hiddenField = $('#hidden_photo_field');
-
-
-   if(form.isValid(ClientSideValidations.validators)){
+    var form = $('#product_form');
+    var hiddenField = $('#hidden_photo_field');
     var fileField = $('#file_field');
-    var files = fileField.prop('files');
+    
+    // find all fields of the validated form
+    $('*[data-validate="true"]').blur();
+    
 
-    if(files.length > 0){
-      var file = fileField.prop('files')[0];
+    if(form.isValid(ClientSideValidations.validators)){
+      var files = fileField.prop('files');
 
-      var storageRef = firebase.storage().ref();
-      var fileRef = storageRef.child('images/' + file.name);
-      var uploadTask = fileRef.put(file)
-      showPleaseWait();
+      if(files.length > 0){
+        var file = fileField.prop('files')[0];
 
-      uploadTask.on('state_changed', 
-        null,
-        function error(error) {
-          hidePleaseWait();
-          alert('Error occured while uploading files')
-        },
-        function complete() {
-          hidePleaseWait();
-          var downloadURL = uploadTask.snapshot.downloadURL;
-          hiddenField.val(downloadURL);
-          form.submit();
-        });
-    } else {
-      if(hiddenField.val()) {
-        form.submit();
+        var storageRef = firebase.storage().ref();
+        var fileRef = storageRef.child('products/' + file.name);
+        var uploadTask = fileRef.put(file)
+        showPleaseWait();
+
+        uploadTask.on('state_changed', 
+          null,
+          function error(error) {
+            hidePleaseWait();
+            alert('Error occured while uploading files')
+          },
+          function complete() {
+            hidePleaseWait();
+            var downloadURL = uploadTask.snapshot.downloadURL;
+            hiddenField.val(downloadURL);
+            form.submit();
+          });
+        
       } else {
-        alert("Please select photo file");
+        if(hiddenField.val()) {
+         form.submit();
+        } else {
+         alert("Please select photo file");
+        }
       }
 
     }
-
-  }
 
   });
 

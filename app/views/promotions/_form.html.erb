@@ -78,7 +78,7 @@
 
 <div class="form-group">
   <div class="col-lg-offset-2 col-lg-10">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= f.submit nil, :class => 'btn btn-primary', id: 'submit_button' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
     promotions_path, :class => 'btn btn-default' %>
   </div>
@@ -86,3 +86,134 @@
 
 <% end %>
 
+<script>
+
+  var config = {
+      apiKey: "AIzaSyBiH5nQyb9vwCR9OL0f8ugGajNZHJh90nk",
+      authDomain: "waritex-promotions-firebase.firebaseapp.com",
+      databaseURL: "https://waritex-promotions-firebase.firebaseio.com",
+      projectId: "waritex-promotions-firebase",
+      storageBucket: "waritex-promotions-firebase.appspot.com",
+      messagingSenderId: "786576419400"
+  };
+  
+  if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+  }
+
+
+  var form = $('#promotion_form');
+  var newFilesCount = 0;
+  var alreadyUploadedFilesCount = 0;
+
+
+  $('#submit_button').click(function(e){
+    e.preventDefault();
+
+    // find all fields of the validated form and trigger validation by bluring
+    $('*[data-validate="true"]').blur();
+
+    if(!form.isValid(ClientSideValidations.validators)){
+      return;
+    }
+
+    var oldHiddenFields = $('.hidden_old_photo_field');
+    var newHiddenFields = $('.hidden_new_photo_field');
+
+    var fileFields = $('.photo_file_field');
+
+    // alreadyUploadedFilesCount must be always 0 if in create mode
+    alreadyUploadedFilesCount = getNumberOfAlreadyUploadedFiles(oldHiddenFields);
+    newFilesCount = getNumberOfNewFiles(fileFields);
+
+    console.log("New files: " + newFilesCount);
+    console.log("Old files: " + alreadyUploadedFilesCount);
+
+    if(newFilesCount != fileFields.size()){
+      alert("Please add the missing photos");
+      return;
+    }
+
+
+    if((newFilesCount + alreadyUploadedFilesCount) == 0){
+      alert("Please add at least one photo");
+      return;
+    }
+
+    if(newFilesCount == 0){
+      form.submit();
+      return;
+    }
+
+    showPleaseWait();
+
+    // upload new files
+    fileFields.each(function(index) {
+      var fileField = fileFields[index];
+      var hiddenField = newHiddenFields[index]
+
+      var files = fileField.files;
+
+      if(files.length > 0){
+        uploadFile(files[0], hiddenField);
+      }
+
+    });
+
+  });
+
+  function getNumberOfAlreadyUploadedFiles(oldHiddenFields){
+    var result = 0;
+    oldHiddenFields.each(function(index) {
+      var hiddenField = oldHiddenFields[index];
+      var photoId = hiddenField.id;
+      var destroyId = photoId.substring(0, photoId.length - 'photo'.length) + '_destroy';
+
+      console.log("destroy id: " + destroyId);
+
+      var destroyHiddenField = $('#' + destroyId);
+      if(destroyHiddenField.val() != '1'){
+        result ++;
+      }
+    });
+    return result;
+  }
+
+  function getNumberOfNewFiles(fileFields){
+    var result = 0;
+    fileFields.each(function(index) {
+      var fileField = fileFields[index];
+      if(fileField.files.length > 0){
+        result ++;
+      }
+    });
+    return result;
+  }
+
+  function fileUploaded(){
+    newFilesCount --;
+    if(newFilesCount == 0){
+      hidePleaseWait();
+      form.submit();
+    }
+  }
+
+  function uploadFile(file, hiddenField){
+    var storageRef = firebase.storage().ref();
+    var fileRef = storageRef.child('promotions/' + file.name);
+    var uploadTask = fileRef.put(file)
+
+    uploadTask.on('state_changed', 
+      null,
+      function error(error) {
+        alert('Error occured while uploading files')
+      },
+      function complete() {
+        var downloadURL = uploadTask.snapshot.downloadURL;
+        hiddenField.value = downloadURL;
+        console.log(downloadURL);
+        fileUploaded();
+      });
+  }
+
+</script>
